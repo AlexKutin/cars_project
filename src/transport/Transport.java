@@ -1,5 +1,7 @@
 package transport;
 
+import java.util.Objects;
+
 public class Transport {
     private final String brand; // Марка
     private final String model; // Модель
@@ -49,6 +51,21 @@ public class Transport {
         this.productionCountry = checkIsNotEmptyAndFill(productionCountry);
         this.color = checkColorAndFill(color);
         this.maximumSpeed = checkAndFillMaximumSpeed(maximumSpeed);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transport transport = (Transport) o;
+        return productionYear == transport.productionYear && maximumSpeed == transport.maximumSpeed &&
+                Objects.equals(brand, transport.brand) && Objects.equals(model, transport.model) &&
+                Objects.equals(color, transport.color) && Objects.equals(productionCountry, transport.productionCountry);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(brand, model, productionYear, color, productionCountry, maximumSpeed);
     }
 
     String checkIsNotEmptyAndFill(String str) {

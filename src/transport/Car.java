@@ -146,14 +146,6 @@ public class Car extends Transport {
         this.key = checkCarKeyAndFill(key);
     }
 
-    @Override
-    public String toString() {
-        return String.format("%s %s, %d год выпуска, страна сборки: %s, цвет кузова: %s, объем двигателя: %.1f литра, " +
-                        "макс. скорость = %d, КПП: %s,\n количество мест: %d, тип кузова: %s, рег. номер: %s (%s), тип шин: %s, %s, %s",
-                getBrand(), getModel(), getProductionYear(), getProductionCountry(), getColor(), engineVolume, getMaximumSpeed(), gearBox, seatsNumber,
-                bodyType, registrationNumber, regNumberValidResult(), tyresType, key, insurance == null ? "страховка отсутствует" : insurance);
-    }
-
     public double getEngineVolume() {
         return engineVolume;
     }
@@ -208,6 +200,31 @@ public class Car extends Transport {
 
     public boolean isRegistrationNumberValid(String regNumber) {
         return REG_NUMBER_PATTERN.matcher(regNumber).matches();
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Автомобиль: %s %s, %d год выпуска, страна сборки: %s, цвет кузова: %s, объем двигателя: %.1f литра, " +
+                        "макс. скорость = %d км/ч, КПП: %s,\n количество мест: %d, тип кузова: %s, рег. номер: %s (%s), тип шин: %s, %s, %s",
+                getBrand(), getModel(), getProductionYear(), getProductionCountry(), getColor(), engineVolume, getMaximumSpeed(), gearBox, seatsNumber,
+                bodyType, registrationNumber, regNumberValidResult(), tyresType, key, insurance == null ? "страховка отсутствует" : insurance);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Car car = (Car) o;
+        return Double.compare(car.engineVolume, engineVolume) == 0 && seatsNumber == car.seatsNumber &&
+                Objects.equals(gearBox, car.gearBox) && Objects.equals(bodyType, car.bodyType) &&
+                Objects.equals(registrationNumber, car.registrationNumber) && tyresType == car.tyresType &&
+                Objects.equals(key, car.key) && Objects.equals(insurance, car.insurance);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), engineVolume, gearBox, bodyType, registrationNumber, seatsNumber, tyresType, key, insurance);
     }
 
     private String regNumberValidResult() {

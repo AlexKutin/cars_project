@@ -1,3 +1,4 @@
+import transport.Bus;
 import transport.Car;
 import transport.Car.TyresType;
 
@@ -35,5 +36,15 @@ public class Main {
         System.out.println("Buy insurance...");
         kiaSorento.setInsurance(new Car.Insurance(LocalDate.now().plusMonths(10), 10_000, "XY1234567"));
         System.out.println(kiaSorento);
+
+        System.out.println();
+        System.out.println("Creating buses...");
+        Bus mercedesSprinter = new Bus("Mercedes", "Sprinter", 2015, "Germany", "Black", 180);
+        Bus fordTransit = new Bus("Ford", "Transit", 2018, "USA", "Blue", 170);
+        Bus liaz = new Bus("Liaz", "6213", 2020, "Russia", "Blue", 95);
+
+        System.out.println(mercedesSprinter);
+        System.out.println(fordTransit);
+        System.out.println(liaz);
     }
 }
