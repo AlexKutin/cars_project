@@ -4,10 +4,13 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class Car {
+public class Car extends Transport {
     private static final Pattern REG_NUMBER_PATTERN = Pattern.compile("[а-яА-Я]\\d{3}[а-яА-Я]{2}\\d{3}");  // х000хх000
+    private static final int DEFAULT_MAX_SPEED = 150;
+    private static final String DEFAULT_BODY_TYPE = "Sedan";
+    private static final int DEFAULT_SEATS_NUMBER = 5;
 
-    public enum TyresType { SUMMER ("Летние"), WINTER ("Зимние");
+    public enum TyresType { SUMMER ("летние"), WINTER ("зимние");
         private final String tyresName;
 
         TyresType(String tyresName) {
@@ -110,12 +113,7 @@ public class Car {
         }
     }
 
-    private final String brand; // Марка
-    private final String model; // Модель
     private double engineVolume;    // Объем двигателя в литрах
-    private String color;   // Цвет кузова
-    private final int productionYear;   // Год производства
-    private final String productionCountry; // Страна сборки
     private String gearBox; // Коробка передач
     private final String bodyType;  // Тип кузова
     private String registrationNumber;  // Регистрационный номер»
@@ -125,24 +123,21 @@ public class Car {
     private Insurance insurance;
 
     public Car(String brand, String model, double engineVolume, String color, int productionYear, String productionCountry) {
-        this(brand, model, engineVolume, color, productionYear, productionCountry, "", "Sedan", "", 4, TyresType.SUMMER);
+        this(brand, model, engineVolume, color, productionYear, productionCountry, "", DEFAULT_BODY_TYPE,
+                "", DEFAULT_SEATS_NUMBER, TyresType.SUMMER);
     }
 
     public Car(String brand, String model, double engineVolume, String color, int productionYear, String productionCountry,
                String gearBox, String bodyType, String registrationNumber, int seatsNumber, TyresType tyresType) {
-        this(brand, model, engineVolume, color, productionYear, productionCountry, gearBox, bodyType, registrationNumber,
+        this(brand, model, engineVolume, color, productionYear, productionCountry, DEFAULT_MAX_SPEED, gearBox, bodyType, registrationNumber,
                 seatsNumber, tyresType, createDefaultKey());
     }
 
-    public Car(String brand, String model, double engineVolume, String color, int productionYear, String productionCountry,
+    public Car(String brand, String model, double engineVolume, String color, int productionYear, String productionCountry, int maximumSpeed,
                String gearBox, String bodyType, String registrationNumber, int seatsNumber, TyresType tyresType, Key key) {
-        this.brand = checkIsNotEmptyAndFill(brand);
-        this.model = checkIsNotEmptyAndFill(model);
-        this.engineVolume = checkAndFillEngineVolume(engineVolume);
-        this.color = checkColorAndFill(color);
-        this.productionYear = checkAndFillProductionYear(productionYear);
-        this.productionCountry = checkIsNotEmptyAndFill(productionCountry);
+        super(brand, model, productionYear, productionCountry, color, maximumSpeed);
 
+        this.engineVolume = checkAndFillEngineVolume(engineVolume);
         this.gearBox = checkGearBoxAndFill(gearBox);
         this.seatsNumber = checkSeatsNumberAndFill(seatsNumber);
         this.bodyType = checkBodyTypeAndFill(bodyType);
@@ -154,17 +149,9 @@ public class Car {
     @Override
     public String toString() {
         return String.format("%s %s, %d год выпуска, страна сборки: %s, цвет кузова: %s, объем двигателя: %.1f литра, " +
-                        "КПП: %s,\n количество мест: %d, тип кузова: %s, рег. номер: %s (%s), тип шин: %s, %s, %s",
-                brand, model, productionYear, productionCountry, color, engineVolume, gearBox, seatsNumber,
+                        "макс. скорость = %d, КПП: %s,\n количество мест: %d, тип кузова: %s, рег. номер: %s (%s), тип шин: %s, %s, %s",
+                getBrand(), getModel(), getProductionYear(), getProductionCountry(), getColor(), engineVolume, getMaximumSpeed(), gearBox, seatsNumber,
                 bodyType, registrationNumber, regNumberValidResult(), tyresType, key, insurance == null ? "страховка отсутствует" : insurance);
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public String getModel() {
-        return model;
     }
 
     public double getEngineVolume() {
@@ -173,22 +160,6 @@ public class Car {
 
     public void setEngineVolume(double engineVolume) {
         this.engineVolume = engineVolume;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public int getProductionYear() {
-        return productionYear;
-    }
-
-    public String getProductionCountry() {
-        return productionCountry;
     }
 
     public String getGearBox() {
@@ -254,32 +225,11 @@ public class Car {
         }
     }
 
-    private String checkIsNotEmptyAndFill(String str) {
-        if (str == null || str.isBlank()) {
-            return "Default";
-        }
-        return str;
-    }
-
     private double checkAndFillEngineVolume(double engineVolume) {
         if (engineVolume > 0) {
             return engineVolume;
         }
         return 1.5;
-    }
-
-    private String checkColorAndFill(String str) {
-        if (str == null || str.isBlank()) {
-            return "Белый";
-        }
-        return str;
-    }
-
-    private int checkAndFillProductionYear(int productionYear) {
-        if (productionYear > 1900) {
-            return productionYear;
-        }
-        return 2000;
     }
 
     private String checkGearBoxAndFill(String str) {
