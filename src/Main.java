@@ -1,3 +1,4 @@
+import transport.Bus;
 import transport.Car;
 import transport.Car.TyresType;
 
@@ -8,13 +9,13 @@ public class Main {
         Car ladaGranta = new Car("Lada", "Granta", 1.7, "желтый", 2015, "Россия",
                 "Manual", "Хэтчбек", "М670КУ199", 5, null);
         Car audiA8 = new Car("Audi", "A8 50 L TDI quattro", 3.0, "черный", 2020, "Германия",
-                "Auto Transmission", "Sedan", "X089MK199", 5, TyresType.SUMMER,
+                240, "Auto Transmission", "Sedan", "X089MK199", 5, TyresType.WINTER,
                 new Car.Key(true, true));
         Car bmwZ8 = new Car("BMW", "Z8", 3.0, "черный", 2021, "Германия");
         Car kiaSportage = new Car("Kia", "Sportage 4 поколение", 2.4, "красный", 2018, "Южная Корея");
         Car hyundaiAvante = new Car("Hyundai", "Avante", 1.6, "оранжевый", 2016, "Южная Корея");
         Car kiaSorento = new Car("Kia", "Sorento", 2.5, " ", -600, "Южная Корея",
-                "Auto Transmission", "Универсал", "е001КХ199", 7,
+                200, "Auto Transmission", "Универсал", "е001КХ199", 7,
                 TyresType.WINTER, new Car.Key(true, false));
 
         ladaGranta.setInsurance(new Car.Insurance(LocalDate.now().plusDays(30), 4000, "765889"));
@@ -35,5 +36,15 @@ public class Main {
         System.out.println("Buy insurance...");
         kiaSorento.setInsurance(new Car.Insurance(LocalDate.now().plusMonths(10), 10_000, "XY1234567"));
         System.out.println(kiaSorento);
+
+        System.out.println();
+        System.out.println("Creating buses...");
+        Bus mercedesSprinter = new Bus("Mercedes", "Sprinter", 2015, "Germany", "Black", 180);
+        Bus fordTransit = new Bus("Ford", "Transit", 2018, "USA", "Blue", 170);
+        Bus liaz = new Bus("Liaz", "6213", 2020, "Russia", "Blue", 95);
+
+        System.out.println(mercedesSprinter);
+        System.out.println(fordTransit);
+        System.out.println(liaz);
     }
 }
