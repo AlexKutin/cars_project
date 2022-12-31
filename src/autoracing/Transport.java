@@ -7,6 +7,8 @@ public abstract class Transport<T extends Driver> {
     private final String model; // Модель
     private final double engineVolume; // Объем двигателя в литрах
 
+    private T driver;
+
     public String getBrand() {
         return brand;
     }
@@ -19,6 +21,14 @@ public abstract class Transport<T extends Driver> {
         return engineVolume;
     }
 
+    public T getDriver() {
+        return driver;
+    }
+
+    public void setDriver(T driver) {
+        this.driver = driver;
+    }
+
     public Transport(String brand, String model, double engineVolume) {
         this.brand = checkIsNotEmptyAndFill(brand);
         this.model = checkIsNotEmptyAndFill(model);
@@ -26,6 +36,8 @@ public abstract class Transport<T extends Driver> {
     }
 
     public abstract void printType();
+
+    public abstract void passDiagnostics();
 
     @Override
     public boolean equals(Object o) {
@@ -49,9 +61,19 @@ public abstract class Transport<T extends Driver> {
 
     }
 
-    public void manage(T driver) {
-        System.out.printf("Водитель %s управляет автомобилем %s и будет участвовать в заезде\n",
-                driver.getFullName(), getShortTransportName());
+    public void manage(T driver) throws DriverLicenseException {
+        if (driver.isDriverLicenceCorrect()) {
+            System.out.printf("Водитель %s управляет автомобилем %s и будет участвовать в заезде\n",
+                    driver.getFullName(), getShortTransportName());
+        } else {
+            if (driver.getTypeDriverLicense() == null) {
+                throw new DriverLicenseException(String.format("У водителя %s не указан тип прав!", driver.getFullName()), driver);
+            } else {
+                throw new DriverLicenseException(
+                        String.format("Категория прав водителя %s не позволяет управлять транспортным средством %s",
+                                driver.getFullName(), this.getShortTransportName()), driver);
+            }
+        }
     }
 
     public String toString() {

@@ -53,6 +53,11 @@ public class Truck<T extends DriverC> extends Transport<T> implements Competing<
     }
 
     @Override
+    public void passDiagnostics() {
+        System.out.printf("%s проходит диагностику\n", this);
+    }
+
+    @Override
     public String toString() {
         return String.format("Грузовик: " + super.toString());
     }

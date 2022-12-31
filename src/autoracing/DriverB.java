@@ -6,8 +6,17 @@ public class DriverB extends Driver {
         super(fullName, driverLicense, experience);
     }
 
+    public DriverB(String fullName, boolean driverLicense, int experience, TypeDriverLicence typeDriverLicense) {
+        super(fullName, driverLicense, experience, typeDriverLicense);
+    }
+
     @Override
     public String toString() {
-        return super.toString() + ", категория: B";
+        return super.toString() + ", заявлена категория: B";
+    }
+
+    @Override
+    public boolean isDriverLicenceCorrect() {
+        return super.isDriverLicenceCorrect() && getTypeDriverLicense() != TypeDriverLicence.B;
     }
 }

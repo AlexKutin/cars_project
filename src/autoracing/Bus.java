@@ -55,6 +55,11 @@ public class Bus<T extends DriverD> extends Transport<T> implements Competing<T>
     }
 
     @Override
+    public void passDiagnostics() {
+        throw new UnsupportedOperationException("Автобусы диагностику проходить не могут");
+    }
+
+    @Override
     public String toString() {
         return String.format("Автобус: " + super.toString());
     }
