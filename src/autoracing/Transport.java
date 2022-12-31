@@ -2,7 +2,7 @@ package autoracing;
 
 import java.util.Objects;
 
-public class Transport<T extends Driver> {
+public abstract class Transport<T extends Driver> {
     private final String brand; // Марка
     private final String model; // Модель
     private final double engineVolume; // Объем двигателя в литрах
@@ -24,6 +24,8 @@ public class Transport<T extends Driver> {
         this.model = checkIsNotEmptyAndFill(model);
         this.engineVolume = checkAndFillEngineVolume(engineVolume);
     }
+
+    public abstract void printType();
 
     @Override
     public boolean equals(Object o) {
