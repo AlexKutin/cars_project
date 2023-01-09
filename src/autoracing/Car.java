@@ -53,6 +53,11 @@ public class Car<T extends DriverB> extends Transport<T> implements Competing<T>
     }
 
     @Override
+    public void passDiagnostics() {
+        System.out.printf("%s проходит диагностику\n", this);
+    }
+
+    @Override
     public String toString() {
         return String.format("Легковой автомобиль: " + super.toString());
     }

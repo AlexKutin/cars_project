@@ -59,8 +59,8 @@ public class Main {
 
 
         DriverB alex = new DriverB("Alex Dmitrievich", true, 12);
-        DriverC andrey = new DriverC("Andrey Olafsen", true, 21);
-        DriverD antony = new DriverD("Antony Blinken", true, 15);
+        DriverC andrey = new DriverC("Andrey Olafsen", true, 21, Driver.TypeDriverLicence.C);
+        DriverD antony = new DriverD("Antony Blinken", true, 15, Driver.TypeDriverLicence.B);
         System.out.println("Водители:");
         System.out.println(alex);
         System.out.println(andrey);
@@ -68,8 +68,21 @@ public class Main {
         System.out.println();
 
         System.out.println("Назначены водители для гонок:");
-        bmwZ8.manage(alex);
-        iveco.manage(andrey);
-        liaz.manage(antony);
+        bmwZ8.setDriver(alex);
+        iveco.setDriver(andrey);
+        liaz.setDriver(antony);
+        System.out.println("Проверяем возможность управления в соответствии с их в/у...");
+        checkDriversLicense(bmwZ8, iveco, liaz);
+    }
+
+    private static void checkDriversLicense(Transport... transports) {
+        for (Transport transport : transports) {
+            Driver driver = transport.getDriver();
+            try {
+                transport.manage(driver);
+            } catch (DriverLicenseException e) {
+                System.out.println(e.getMessage() + " Он не может участвовать в гонке");
+            }
+        }
     }
 }
