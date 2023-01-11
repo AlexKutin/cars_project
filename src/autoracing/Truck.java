@@ -1,6 +1,6 @@
 package autoracing;
 
-public class Truck<T extends DriverC> extends Transport<T> implements Competing<T> {
+public class Truck extends Transport implements Competing {
 
     enum LoadCapacity {
         N1(null, 3.5f),
@@ -39,8 +39,13 @@ public class Truck<T extends DriverC> extends Transport<T> implements Competing<
         this.loadCapacity = loadCapacity;
     }
 
-    public Truck(String brand, String model, double engineVolume) {
-        super(brand, model, engineVolume);
+    public Truck(String brand, String model, double engineVolume, int countMechanics) {
+        super(brand, model, engineVolume, countMechanics);
+    }
+
+    public Truck(String brand, String model, double engineVolume, int countMechanics, LoadCapacity loadCapacity) {
+        super(brand, model, engineVolume, countMechanics);
+        this.loadCapacity = loadCapacity;
     }
 
     @Override
@@ -68,12 +73,12 @@ public class Truck<T extends DriverC> extends Transport<T> implements Competing<
     }
 
     @Override
-    public int bestLapTime(Transport<T> party) {
+    public int bestLapTime(Transport party) {
         return 0;
     }
 
     @Override
-    public int maximumSpeed(Transport<T> party) {
+    public int maximumSpeed(Transport party) {
         return 0;
     }
 }
