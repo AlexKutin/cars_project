@@ -39,6 +39,10 @@ public abstract class Transport {
         return countMechanics;
     }
 
+    public List<Mechanic> getMechanics() {
+        return mechanics;
+    }
+
     public Transport(String brand, String model, double engineVolume, int countMechanics) {
         this.brand = checkIsNotEmptyAndFill(brand);
         this.model = checkIsNotEmptyAndFill(model);
@@ -50,6 +54,8 @@ public abstract class Transport {
     public abstract void printType();
 
     public abstract void passDiagnostics();
+
+    protected abstract boolean checkServiceTypeCorrect(MechanicServiceType serviceType);
 
     @Override
     public boolean equals(Object o) {
@@ -65,11 +71,14 @@ public abstract class Transport {
         return Objects.hash(brand, model, engineVolume);
     }
 
-    public void addMechanic(Mechanic mechanic) {
+    public boolean addMechanic(Mechanic mechanic) {
+        if (mechanic == null || !checkServiceTypeCorrect(mechanic.getServiceType()) || mechanics.contains(mechanic)) {
+            return false;
+        }
         if (mechanics.size() == countMechanics) {
             throw new MechanicsCountOverflowException("Количество механиков не может превышать: " + countMechanics);
         }
-        mechanics.add(mechanic);
+        return mechanics.add(mechanic);
     }
 
     public void dismissMechanic(Mechanic mechanic) {

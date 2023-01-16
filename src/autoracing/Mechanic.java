@@ -3,26 +3,12 @@ package autoracing;
 import java.util.Objects;
 
 public class Mechanic {
-
-    enum ServiceType {CAR("Легковые"), TRUCK("Грузовые"), BUS("Автобусы"), ALL("Все");
-        private final String name;
-
-        ServiceType(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
-
     private final String firstName;
     private final String lastName;
     private String companyName;
-    private ServiceType serviceType;
+    private MechanicServiceType serviceType;
 
-    public Mechanic(String firstName, String lastName, String companyName, ServiceType serviceType) {
+    public Mechanic(String firstName, String lastName, String companyName, MechanicServiceType serviceType) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.companyName = companyName;
@@ -45,11 +31,11 @@ public class Mechanic {
         this.companyName = companyName;
     }
 
-    public ServiceType getServiceType() {
+    public MechanicServiceType getServiceType() {
         return serviceType;
     }
 
-    public void setServiceType(ServiceType serviceType) {
+    public void setServiceType(MechanicServiceType serviceType) {
         this.serviceType = serviceType;
     }
 
