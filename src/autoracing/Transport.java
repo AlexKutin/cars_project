@@ -1,13 +1,19 @@
 package autoracing;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
-public abstract class Transport<T extends Driver> {
+public abstract class Transport {
     private final String brand; // Марка
     private final String model; // Модель
     private final double engineVolume; // Объем двигателя в литрах
 
-    private T driver;
+    private Driver<? extends Transport> driver;
+
+    private final List<Mechanic> mechanics;
+
+    private final int countMechanics;
 
     public String getBrand() {
         return brand;
@@ -21,18 +27,24 @@ public abstract class Transport<T extends Driver> {
         return engineVolume;
     }
 
-    public T getDriver() {
+    public Driver<? extends Transport> getDriver() {
         return driver;
     }
 
-    public void setDriver(T driver) {
+    public void setDriver(Driver<? extends Transport> driver) {
         this.driver = driver;
     }
 
-    public Transport(String brand, String model, double engineVolume) {
+    public int getCountMechanics() {
+        return countMechanics;
+    }
+
+    public Transport(String brand, String model, double engineVolume, int countMechanics) {
         this.brand = checkIsNotEmptyAndFill(brand);
         this.model = checkIsNotEmptyAndFill(model);
         this.engineVolume = checkAndFillEngineVolume(engineVolume);
+        this.countMechanics = countMechanics;
+        mechanics = new ArrayList<>(countMechanics);
     }
 
     public abstract void printType();
@@ -43,7 +55,7 @@ public abstract class Transport<T extends Driver> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Transport<T> transport = (Transport<T>) o;
+        Transport transport = (Transport) o;
         return Double.compare(transport.engineVolume, engineVolume) == 0 && Objects.equals(brand, transport.brand) &&
                 Objects.equals(model, transport.model);
     }
@@ -51,6 +63,17 @@ public abstract class Transport<T extends Driver> {
     @Override
     public int hashCode() {
         return Objects.hash(brand, model, engineVolume);
+    }
+
+    public void addMechanic(Mechanic mechanic) {
+        if (mechanics.size() == countMechanics) {
+            throw new MechanicsCountOverflowException("Количество механиков не может превышать: " + countMechanics);
+        }
+        mechanics.add(mechanic);
+    }
+
+    public void dismissMechanic(Mechanic mechanic) {
+        mechanics.remove(mechanic);
     }
 
     public void startMoving() {
@@ -61,7 +84,7 @@ public abstract class Transport<T extends Driver> {
 
     }
 
-    public void manage(T driver) throws DriverLicenseException {
+    public void manage(Driver<? extends Transport> driver) throws DriverLicenseException {
         if (driver.isDriverLicenceCorrect()) {
             System.out.printf("Водитель %s управляет автомобилем %s и будет участвовать в заезде\n",
                     driver.getFullName(), getShortTransportName());
@@ -78,6 +101,14 @@ public abstract class Transport<T extends Driver> {
 
     public String toString() {
         return getShortTransportName();
+    }
+
+    public void printFullInfo() {
+        if (driver == null) {
+            System.out.printf("Авто: {%s}, Водитель - не назначен!, Механики: %s\n", getShortTransportName(), mechanics);
+        } else {
+            System.out.printf("Авто: {%s}, %s, Механики: %s\n", getShortTransportName(), driver, mechanics);
+        }
     }
 
     String checkIsNotEmptyAndFill(String str) {

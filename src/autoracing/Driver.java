@@ -1,6 +1,6 @@
 package autoracing;
 
-public class Driver {
+public class Driver<T extends Transport> {
 
     enum TypeDriverLicence {B, C, D}
 
@@ -51,15 +51,15 @@ public class Driver {
         this.typeDriverLicense = typeDriverLicense;
     }
 
-    public void startMoving(Transport auto) {
+    public void startMoving(T auto) {
         auto.startMoving();
     }
 
-    public void stopMoving(Transport auto) {
+    public void stopMoving(T auto) {
         auto.finishMoving();
     }
 
-    public void refuelCar(Transport auto) {
+    public void refuelCar(T auto) {
 
     }
 

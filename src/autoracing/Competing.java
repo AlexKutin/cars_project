@@ -1,10 +1,10 @@
 package autoracing;
 
-public interface Competing<T extends Driver> {
+public interface Competing {
 
     void pitStop();
 
-    int bestLapTime(Transport<T> party);
+    int bestLapTime(Transport party);
 
-    int maximumSpeed(Transport<T> party);
+    int maximumSpeed(Transport party);
 }

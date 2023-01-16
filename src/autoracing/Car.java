@@ -1,6 +1,6 @@
 package autoracing;
 
-public class Car<T extends DriverB> extends Transport<T> implements Competing<T> {
+public class Car extends Transport implements Competing {
 
     enum BodyType {
         SEDAN("Седан"),
@@ -39,8 +39,13 @@ public class Car<T extends DriverB> extends Transport<T> implements Competing<T>
         this.bodyType = bodyType;
     }
 
-    public Car(String brand, String model, double engineVolume) {
-        super(brand, model, engineVolume);
+    public Car(String brand, String model, double engineVolume, int countMechanics) {
+        super(brand, model, engineVolume, countMechanics);
+    }
+
+    public Car(String brand, String model, double engineVolume, int countMechanics, BodyType bodyType) {
+        super(brand, model, engineVolume, countMechanics);
+        this.bodyType = bodyType;
     }
 
     @Override
@@ -68,12 +73,12 @@ public class Car<T extends DriverB> extends Transport<T> implements Competing<T>
     }
 
     @Override
-    public int bestLapTime(Transport<T> transport) {
+    public int bestLapTime(Transport transport) {
         return 0;
     }
 
     @Override
-    public int maximumSpeed(Transport<T> transport) {
+    public int maximumSpeed(Transport transport) {
         return 0;
     }
 }
