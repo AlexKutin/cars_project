@@ -1,8 +1,6 @@
 package autoracing;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Main {
 
@@ -76,14 +74,26 @@ public class Main {
         scania.printType();
         System.out.println();
 
-        Driver<Car> alex = new Driver<>("Alex Dmitrievich", true, 12);
+        Driver<Car> alex = new Driver<>("Alex Dmitrievich", true, 12, Driver.TypeDriverLicence.B);
         Driver<Truck> andrey = new Driver<>("Andrey Olafsen", true, 21, Driver.TypeDriverLicence.C);
         Driver<Bus> antony = new Driver<>("Antony Blinken", true, 15, Driver.TypeDriverLicence.D);
-        System.out.println("Водители:");
-        System.out.println(alex);
-        System.out.println(andrey);
-        System.out.println(antony);
-        System.out.println();
+        Driver<Bus> tommy = new Driver<>("Timmy Hilfiger", true, 1, Driver.TypeDriverLicence.C);
+
+        System.out.println("Добавляем водителей...");
+        Set<Driver<? extends Transport>> drivers = new HashSet<>();
+        drivers.add(alex);
+        drivers.add(andrey);
+        drivers.add(antony);
+        drivers.add(tommy);
+        drivers.add(andrey);
+        drivers.add(tommy);
+
+        System.out.printf("Проверяем количество водителей: %s\n", drivers.size() == 4 ? "Ок" : "Error");
+        Iterator<Driver<? extends Transport>> iter = drivers.iterator();
+        while (iter.hasNext()) {
+            System.out.println(iter.next());
+        }
+        System.out.println("-----------------------");
 
         System.out.println("Назначены водители для гонок:");
         bmwZ8.setDriver(alex);
