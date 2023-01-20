@@ -81,4 +81,9 @@ public class Truck extends Transport implements Competing {
     public int maximumSpeed(Transport party) {
         return 0;
     }
+
+    @Override
+    protected boolean checkServiceTypeCorrect(MechanicServiceType serviceType) {
+        return serviceType == MechanicServiceType.TRUCK || serviceType == MechanicServiceType.ALL;
+    }
 }

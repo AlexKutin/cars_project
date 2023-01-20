@@ -1,13 +1,17 @@
 package autoracing;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Main {
 
     public static void main(String[] args) {
-        Mechanic mechanicLeo = new Mechanic("Leo", "Zemano", "Favorite", Mechanic.ServiceType.CAR);
-        Mechanic mechanicJacob = new Mechanic("Jacob", "Johnson", "Motors 5", Mechanic.ServiceType.BUS);
-        Mechanic mechanicHarry = new Mechanic("Harry", "Potter", "Alpha", Mechanic.ServiceType.ALL);
-        Mechanic mechanicTomas = new Mechanic("Tomas", "Diesel", "Favorite", Mechanic.ServiceType.ALL);
-        Mechanic mechanicJack = new Mechanic("Jack", "Daniels", "Motor 5", Mechanic.ServiceType.TRUCK);
+        Mechanic mechanicLeo = new Mechanic("Leo", "Zemano", "Favorite", MechanicServiceType.CAR);
+        Mechanic mechanicJacob = new Mechanic("Jacob", "Johnson", "Motors 5", MechanicServiceType.BUS);
+        Mechanic mechanicHarry = new Mechanic("Harry", "Potter", "Alpha", MechanicServiceType.ALL);
+        Mechanic mechanicTomas = new Mechanic("Tomas", "Diesel", "Favorite", MechanicServiceType.ALL);
+        Mechanic mechanicJack = new Mechanic("Jack", "Daniels", "Motor 5", MechanicServiceType.TRUCK);
 
         Car ladaGranta = new Car("Lada", "Granta", 1.7, 1, Car.BodyType.HATCHBACK);
         Car audiA8 = new Car("Audi", "A8 50 L TDI quattro", 3.0, 2);
@@ -72,7 +76,6 @@ public class Main {
         scania.printType();
         System.out.println();
 
-
         Driver<Car> alex = new Driver<>("Alex Dmitrievich", true, 12);
         Driver<Truck> andrey = new Driver<>("Andrey Olafsen", true, 21, Driver.TypeDriverLicence.C);
         Driver<Bus> antony = new Driver<>("Antony Blinken", true, 15, Driver.TypeDriverLicence.D);
@@ -90,10 +93,14 @@ public class Main {
         checkDriversLicense(bmwZ8, iveco, liaz);
         System.out.println();
 
-        bmwZ8.printFullInfo();
-        liaz.printFullInfo();
-        iveco.printFullInfo();
-        ladaGranta.printFullInfo();
+        Map<Transport, List<Mechanic>> transportMap = new HashMap<>();
+        transportMap.put(bmwZ8, bmwZ8.getMechanics());
+        transportMap.put(ladaGranta, ladaGranta.getMechanics());
+        transportMap.put(iveco, iveco.getMechanics());
+        transportMap.put(liaz, liaz.getMechanics());
+        for (Map.Entry<Transport, List<Mechanic>> entry : transportMap.entrySet()) {
+            entry.getKey().printFullInfo();
+        }
     }
 
     private static void checkDriversLicense(Transport... transports) {
